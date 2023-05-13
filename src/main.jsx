@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
 import Admin from "./Layouts/Admin.jsx";
 import God from "./views/Admin/God.jsx";
 import Poison from "./views/Admin/Poison.jsx";
@@ -33,7 +33,7 @@ const poisonLoader = async ({ params }) => {
   return data;
 };
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Client />,
