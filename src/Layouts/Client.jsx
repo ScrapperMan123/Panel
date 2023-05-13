@@ -51,10 +51,6 @@ function Client() {
     // getUserInfo();
   }, [identifier]);
 
-  useEffect(() => {
-    console.log("id :", identifier);
-  }, [identifier]);
-
   // useEffect(() => {
   //   const pathname = location.pathname.replace("/", "");
   //   console.log(pathname);

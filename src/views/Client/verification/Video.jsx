@@ -98,7 +98,6 @@ function Video() {
             <VideoRecorder
               onRecordingComplete={(videoBlob) => {
                 // Do something with the video...
-                console.log("videoBlob", videoBlob);
               }}
             />
           </section>

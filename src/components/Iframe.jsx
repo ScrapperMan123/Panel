@@ -2,7 +2,6 @@ import React from "react";
 
 export default function Iframe({ Link }) {
 
-    console.log(Link);
   return (
     <div>
       <iframe

@@ -29,7 +29,6 @@ const poisonLoader = async ({ params }) => {
     "https://ipgeolocation.abstractapi.com/v1/?api_key=82a9528162ca40f89fab49f8b8860ef3"
   );
   const data = await result.json();
-  console.log(data);
   return data;
 };
 
