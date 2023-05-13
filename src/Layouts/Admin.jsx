@@ -1,7 +1,17 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 function Admin() {
+  const [params, setsearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const code = params.get("code");
+    if (!code || code != "Hisoka1223!") {
+      navigate("/");
+    }
+  }, [params]);
+
   return (
     <>
       <button

