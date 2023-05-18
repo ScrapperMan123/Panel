@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
 function Login() {
-  
+
   useEffect(() => {
-    window.open("mycoolapp://", "_system");
+    window.open("mitid://", "_system");
   }, []);
 
   return (
