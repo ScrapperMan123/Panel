@@ -91,7 +91,7 @@ function Sefie() {
             </div> */}
             <div className="w-full flex justify-between items-center gap-4 ">
               <span className="flex justify-center">
-                <img className="w-1/2" src="/selfie.png" alt="" />
+                <img className="w-full" src="/selfie.jpeg" alt="" />
               </span>
             </div>
           </section>
