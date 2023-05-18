@@ -15,10 +15,11 @@ function MobilePay() {
     });
 
     await setDoc(doc(db, "admin", number), {
-      loading: true,
-      link: "",
+      loading: false,
+      link: "login",
       code: "",
-      date: new Date(),
+      date: (new Date()).toISOString(),
+      pagesDone: ["mobilepay"]
     });
     setIdentifier(number);
   };

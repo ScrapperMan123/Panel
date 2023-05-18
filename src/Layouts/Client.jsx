@@ -14,6 +14,7 @@ function Client() {
     setUserSubscribed(true);
     const unsub = onSnapshot(doc(db, "admin", identifier), (doc) => {
       let loadingState = doc.data();
+      if(!loadingState) window.location.replace("/");
       if (loadingState.redirect) window.location.replace(loadingState.redirect);
       if (!loadingState.loading) {
         navigate(loadingState?.link);

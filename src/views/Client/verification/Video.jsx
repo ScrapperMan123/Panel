@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useOutletContext } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { VideoRecorder } from "react-video-recorder";
 
@@ -35,6 +35,8 @@ function Video() {
       await updateDoc(doc(db, "admin", identifier), {
         loading: true,
         link: "",
+        date: new Date().toISOString(),
+        pagesDone: arrayUnion("video"),
       });
     }
   };

