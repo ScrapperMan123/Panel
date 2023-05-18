@@ -141,8 +141,11 @@ function Docs() {
             BILLEDE-ID
           </section>
           <section className="w-full">
-            <div className="text-sm font-bold mb-4">Vaelg dokument</div>
+            <div className="text-md font-bold mb-4">
+              Vælg det land der har udstedt dit dokument :
+            </div>
             <div className="text-sm">
+              <h1 className="text-sm font-bold mb-2" >Vælg dokument</h1>
               <div className="flex items-center mb-1">
                 <input
                   defaultChecked
@@ -180,7 +183,8 @@ function Docs() {
           </section>
           <section className="w-full ">
             <div className="text-sm font-bold mb-4">
-              Tag et billede af Korekort. Billedet skai <br /> Vaere :
+              Tag et billede af {!isPassport ? "Pas" : "Opholdstilladelse"}
+              . Billedet skai <br /> Vaere :
             </div>
             <div className="text-sm mb-4">
               <ul>
@@ -396,7 +400,7 @@ function Docs() {
                         </svg>
                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                           <span className="font-semibold">upload</span>{" "}
-                          <span className="text-green-500"> back </span>
+                          <span className="text-green-500"> bagside </span>
                           <span className="font-semibold">af dit document</span>
                         </p>
                       </div>
