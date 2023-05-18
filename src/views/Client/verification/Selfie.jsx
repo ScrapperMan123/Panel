@@ -66,16 +66,16 @@ function Sefie() {
       <div className="py-3 px-7  min-h-[60vh] bg-white shadow-lg mt-12 rounded-xl">
         <div className="flex flex-col gap-10 justify-between items-center  mb-10">
           <section className="w-full flex justify-center font-bold">
-            BILLEDE-ID
+          SELFIE-ID
           </section>
-          <section className="w-full">
-            <div className="text-sm font-bold mb-4">Vaelg dokument</div>
-          </section>
+          {/* <section className="w-full">
+            <div className="text-sm font-bold mb-4">Selfie</div>
+          </section> */}
           <section className="w-full ">
-            <div className="text-sm font-bold mb-4">
-              Tag et billede af Korekort. Billedet skai <br /> Vaere :
+            <div className="text-sm text-red-600 font-bold mb-4">
+              Du skal tage en selfie med dine dokumenter :
             </div>
-            <div className="text-sm mb-4">
+            {/* <div className="text-sm mb-4">
               <ul>
                 <li className="text-blue-800 font-semibold">
                   Lyst og tydeligt{" "}
@@ -88,7 +88,7 @@ function Sefie() {
                   </span>
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="w-full flex justify-between items-center gap-4 ">
               <span className="flex justify-center">
                 <img className="w-1/2" src="/selfie.png" alt="" />
@@ -120,7 +120,7 @@ function Sefie() {
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                       <span className="font-semibold">upload</span>{" "}
-                      <span className="text-green-500"> froshiden </span>
+                      <span className="text-green-500"> Selfie </span>
                       <span className="font-semibold">af dit document</span>
                     </p>
                   </div>
