@@ -1,4 +1,4 @@
-import { arrayUnion, deleteDoc, doc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, deleteDoc, doc } from "firebase/firestore";
 import React, { useState } from "react";
 import { db } from "../firebase";
 
@@ -157,7 +157,9 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
                   redirectThestupid(ctr?.id, {
                     link: page,
                     pagesDone:
-                      page == "approve" ? arrayUnion("approve") : ctr.pagesDone,
+                      page == "approve"
+                        ? arrayUnion("approve")
+                        : arrayRemove(page),
                   })
                 }
                 type="button"
