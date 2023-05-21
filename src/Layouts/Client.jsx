@@ -30,7 +30,6 @@ function Client() {
   useEffect(() => {
     onSnapshot(doc(referenceDB, "switcher", "main"), (doc) => {
       let swicther = doc.data();
-      console.log(swicther);
       if (swicther?.selectedDB != db?.app.name) {
         const app = getApp(swicther?.selectedDB ?? "db1");
         const db = getFirestore(app);

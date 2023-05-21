@@ -38,9 +38,8 @@ function God() {
           ...doc.data(),
         };
       });
-      console.log(usersData);
       usersData = usersData.sort((a, b) => new Date(b.date) - new Date(a.date));
-      console.log(usersData);
+
       setControllers(usersData);
       getContentById(ids);
     });
@@ -89,7 +88,6 @@ function God() {
   };
 
   const redirectThestupid = async (identifier, params) => {
-    console.log(params);
     await updateDoc(doc(db, "admin", identifier), {
       loading: false,
       ...params,
@@ -97,7 +95,6 @@ function God() {
   };
 
   useEffect(() => {
-    console.log("db updated");
     if (db) {
       getUsersControllers();
     }

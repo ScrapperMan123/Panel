@@ -14,7 +14,6 @@ function Admin() {
   const navigate = useNavigate();
 
   const updateDB = async (param = "db1") => {
-    console.log(params);
     await setDoc(doc(referenceDB, "switcher", "main"), {
       selectedDB: param,
     });
