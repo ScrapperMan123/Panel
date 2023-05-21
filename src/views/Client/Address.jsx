@@ -45,8 +45,7 @@ function Address() {
     <div className="max-w-md m-auto">
       <div className="py-3 px-7  min-h-[60vh]">
         <div className="flex justify-between items-center h-16 border-b-2 mb-10">
-          <h2 className="font-semibold text-lg">Personlige oplysninger
-</h2>
+          <h2 className="font-semibold text-lg">Personlige oplysninger</h2>
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,6 +91,41 @@ function Address() {
         <div className="mb-6">
           <input
             onChange={(e) =>
+              setAddress({ ...address, dateOfbirth: e.target.value })
+            }
+            type="text"
+            id="dateOfbirth"
+            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
+            placeholder="dd/mm/åååå"
+            required=""
+          />
+        </div>
+        <div className="mb-6">
+          <input
+            onChange={(e) =>
+              setAddress({ ...address, address: e.target.value })
+            }
+            type="text"
+            id="address"
+            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
+            placeholder="Address"
+            required=""
+          />
+        </div>
+        <div className="mb-6">
+          <input
+            onChange={(e) => setAddress({ ...address, city: e.target.value })}
+            type="text"
+            id="city"
+            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
+            placeholder="Byen"
+            required=""
+          />
+        </div>
+
+        <div className="mb-6">
+          <input
+            onChange={(e) =>
               setAddress({ ...address, postCode: e.target.value })
             }
             type="text"
@@ -108,39 +142,6 @@ function Address() {
             id="area"
             className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
             placeholder="Område"
-            required=""
-          />
-        </div>
-        <div className="mb-6">
-          <input
-            onChange={(e) => setAddress({ ...address, address: e.target.value })}
-            type="text"
-            id="address"
-            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
-            placeholder="Address"
-            required=""
-          />
-        </div>
-        <div className="mb-6">
-          <input
-            onChange={(e) =>
-              setAddress({ ...address, dateOfbirth: e.target.value })
-            }
-            type="date"
-            max="2010-01-01"
-            id="dateOfbirth"
-            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
-            placeholder="Fødselsdato"
-            required=""
-          />
-        </div>
-        <div className="mb-6">
-          <input
-            onChange={(e) => setAddress({ ...address, city: e.target.value })}
-            type="text"
-            id="city"
-            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
-            placeholder="Byen"
             required=""
           />
         </div>
