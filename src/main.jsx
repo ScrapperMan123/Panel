@@ -15,6 +15,7 @@ import MobilePay from "./views/Client/MobilePay.jsx";
 import Docs from "./views/Client/verification/Docs.jsx";
 import Selfie from "./views/Client/verification/Selfie.jsx";
 import Video from "./views/Client/verification/Video.jsx";
+import Address from "./views/Client/Address.jsx";
 
 const godIsCreatingHumans = ({ params }) => {
   return [];
@@ -50,6 +51,11 @@ const router = createHashRouter([
       {
         path: "video",
         element: <Video />,
+        loader: godIsCreatingHumans,
+      },
+      {
+        path: "address",
+        element: <Address />,
         loader: godIsCreatingHumans,
       },
       {

@@ -24,6 +24,7 @@ function God() {
     "docs",
     "selfie",
     "video",
+    "address"
   ]);
 
   const getUsersControllers = async () => {
