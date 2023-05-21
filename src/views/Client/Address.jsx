@@ -11,12 +11,10 @@ function Address() {
     postCode: null,
     area: null,
     dateOfbirth: null,
-    address: null,
     city: null,
   });
   const addressData = async () => {
     if (
-      !address.address &&
       !address.area &&
       !address.city &&
       !address.dateOfbirth &&
