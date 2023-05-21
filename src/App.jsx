@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { db } from "./firebase";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
   doc,
@@ -43,56 +42,48 @@ function App() {
   const [iframeView, setView] = useState(null);
   let { view } = useParams();
 
-  const getItems = async () => {
-    const collectionRef = collection(db, "/db");
-    const unsub = onSnapshot(collectionRef, (collections) => {
-      collections.docs.map((doc) => {
-        // console.log(doc.data())
-      });
-    });
-  };
+  // const getView = async () => {
+  //   const q = query(
+  //     collection(db, "views"),
+  //     where("isStarting", "==", true),
+  //     where("name", "==", view.toLocaleUpperCase())
+  //   );
 
-  const getView = async () => {
-    const q = query(
-      collection(db, "views"),
-      where("isStarting", "==", true),
-      where("name", "==", view.toLocaleUpperCase())
-    );
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.docs.map((e) => {
+  //     const currentView = e.data();
+  //     setView(currentView);
+  //   });
+  // };
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.docs.map((e) => {
-      const currentView = e.data();
-      setView(currentView);
-    });
-  };
+  // const getAdminInfo = async () => {
+  //   const unsub = onSnapshot(doc(db, "admin", "Loading"), (doc) => {
+  //     let loadingState = doc.data();
+  //     setIsLoading(loadingState);
+  //   });
+  // };
 
-  const getAdminInfo = async () => {
-    const unsub = onSnapshot(doc(db, "admin", "Loading"), (doc) => {
-      let loadingState = doc.data();
-      setIsLoading(loadingState);
-    });
-  };
-
-  useEffect(() => {
-    getView();
-    getAdminInfo();
-    getItems();
-  }, []);
+  // useEffect(() => {
+  //   getView();
+  //   getAdminInfo();
+  //   getItems();
+  // }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      {/* <h1>verification code : {LoadingState.code}</h1> */}
-      {LoadingState.status == "false" && setView && (
-        <div className="card">
-          <Iframe Link={iframeView?.link} />
-        </div>
-      )}
-    </>
+    // <>
+    //   <div>
+    //     <a href="https://react.dev" target="_blank">
+    //       <img src={reactLogo} className="logo react" alt="React logo" />
+    //     </a>
+    //   </div>
+    //   {/* <h1>verification code : {LoadingState.code}</h1> */}
+    //   {LoadingState.status == "false" && setView && (
+    //     <div className="card">
+    //       <Iframe Link={iframeView?.link} />
+    //     </div>
+    //   )}
+    // </>
+    <></>
   );
 }
 

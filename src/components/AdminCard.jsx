@@ -1,6 +1,6 @@
 import { arrayRemove, arrayUnion, deleteDoc, doc } from "firebase/firestore";
 import React, { useState } from "react";
-import { db } from "../firebase";
+import { useOutletContext } from "react-router-dom";
 
 function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
   [];
@@ -8,6 +8,7 @@ function AdminCard({ ctr, redirectThestupid, getPassedUserData, pages }) {
   const [code, setCode] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
+  const [, , db] = useOutletContext();
   const deleteUser = async (id) => {
     await deleteDoc(doc(db, "admin", id));
   };

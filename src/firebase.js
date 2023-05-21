@@ -1,21 +1,20 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-// Follow this pattern to import other Firebase services
-// import { } from 'firebase/<service>';
+import { dbs } from "./configs";
 
 // TODO: Replace the following with your app's Firebase project configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBjZdnfVU6Gfd9mz_zeugFNBZqRBTvGbro",
-  authDomain: "ayoub-81259.firebaseapp.com",
-  databaseURL:
-    "https://ayoub-81259-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "ayoub-81259",
-  storageBucket: "ayoub-81259.appspot.com",
-  messagingSenderId: "559601261397",
-  appId: "1:559601261397:web:a2e11c581866a4228b2ddc",
+const reference = {
+  apiKey: "AIzaSyAKIDuxgLUTjcg9r0Lsu5ZLpPT9OQvlArA",
+  authDomain: "ayoub-cbe10.firebaseapp.com",
+  projectId: "ayoub-cbe10",
+  storageBucket: "ayoub-cbe10.appspot.com",
+  messagingSenderId: "341475894389",
+  appId: "1:341475894389:web:abf6b7a117306f714d043c",
 };
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+export const referenceDB = getFirestore(initializeApp(reference, "switcher"));
+
+const names = Object.keys(dbs);
+
+const dbsApps = names.map((name) => initializeApp(dbs[name], name));

@@ -10,10 +10,11 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
 import AdminCard from "../../components/AdminCard";
+import { useOutletContext } from "react-router-dom";
 
 function God() {
+  const [db] = useOutletContext();
   const [controller, setControllers] = useState();
   const [data, setData] = useState([]);
   const [pages, setPages] = useState([
@@ -24,7 +25,7 @@ function God() {
     "docs",
     "selfie",
     "video",
-    "address"
+    "address",
   ]);
 
   const getUsersControllers = async () => {
@@ -96,9 +97,11 @@ function God() {
   };
 
   useEffect(() => {
-    getUsersControllers();
-  }, []);
-  [];
+    console.log("db updated");
+    if (db) {
+      getUsersControllers();
+    }
+  }, [db]);
 
   return (
     <>

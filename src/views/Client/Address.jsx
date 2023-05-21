@@ -1,10 +1,9 @@
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { db } from "../../firebase";
 
 function Address() {
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db] = useOutletContext();
   const [address, setAddress] = useState({
     firstName: null,
     lastName: null,

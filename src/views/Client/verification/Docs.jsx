@@ -3,11 +3,9 @@ import { useTranslation } from "react-i18next";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useOutletContext } from "react-router-dom";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
 
 function Docs() {
-  const storage = getStorage();
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db, storage] = useOutletContext();
   const { t } = useTranslation();
   const [front, setFront] = useState(null);
   const [back, setBack] = useState(null);
@@ -37,7 +35,7 @@ function Docs() {
     const spaceRef = ref(userRef, "Cards");
     const result = await Promise.all(
       [front, back].map((file) => {
-        const imageRef = ref(spaceRef, file?.name);
+        const imageRef = ref(spaceRef, file?.name + Date.now());
 
         return uploadBytes(imageRef, file);
       })
@@ -59,7 +57,7 @@ function Docs() {
 
     const userRef = ref(storage, identifier);
     const spaceRef = ref(userRef, "Pass");
-    const imageRef = ref(spaceRef, passport?.name);
+    const imageRef = ref(spaceRef, passport?.name + Date.now());
     const result = await uploadBytes(imageRef, passport);
 
     //Update Admin Panel
@@ -145,7 +143,7 @@ function Docs() {
               Vælg det land der har udstedt dit dokument :
             </div>
             <div className="text-sm">
-              <h1 className="text-sm font-bold mb-2" >Vælg dokument</h1>
+              <h1 className="text-sm font-bold mb-2">Vælg dokument</h1>
               <div className="flex items-center mb-1">
                 <input
                   defaultChecked

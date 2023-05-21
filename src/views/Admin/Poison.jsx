@@ -1,6 +1,5 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
 const URLS = [
   {
     name: "COUNTRY NAME",
@@ -937,6 +936,7 @@ const URLS = [
 ];
 
 function Poison() {
+  const [db] = useOutletContext();
   const [countries, setCountries] = useState([]);
   const [searchCountry, setSearchCountry] = useState("");
   const [selectedCouuntries, setSelectedCouuntries] = useState([]);

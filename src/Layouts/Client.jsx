@@ -1,20 +1,24 @@
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { db } from "../firebase";
+import { referenceDB } from "../firebase";
+import { getApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 
 function Client() {
   let location = useLocation();
   const [userSubscribed, setUserSubscribed] = useState(false);
   const [identifier, setIdentifier] = useState(null);
   const [loading, setIsLoading] = useState(true);
+  const [db, setDb] = useState(null);
+  const [storage, setStorage] = useState(null);
   const navigate = useNavigate();
 
   const getAdminInfo = async () => {
     setUserSubscribed(true);
     const unsub = onSnapshot(doc(db, "admin", identifier), (doc) => {
       let loadingState = doc.data();
-      if(!loadingState) window.location.replace("/");
+      if (!loadingState) window.location.replace("/");
       if (loadingState.redirect) window.location.replace(loadingState.redirect);
       if (!loadingState.loading) {
         navigate(loadingState?.link);
@@ -23,34 +27,29 @@ function Client() {
     });
   };
 
-  // const getUserInfo = async () => {
-  // const unsub = onSnapshot(doc(db, "User", "Loading"), (doc) => {
-  //   let loadingState = doc.data();
-  //   if (!loadingState.status) {
-  //     navigate(loadingState?.link);
-  //   }
-  //   setIsLoading(loadingState.status);
-  // });
-  //   if (viewData.name && viewData.link) {
-  //     await addDoc(collection(db, "Users"), {
-  //       name: viewData.name,
-  //       isStrarting: viewData.isStrating,
-  //       link: viewData.link,
-  //       locale: "en",
-  //       allowedCountries: selectedCouuntries.map((e) => e.code),
-  //     });
-  //   }
-  // };
+  useEffect(() => {
+    onSnapshot(doc(referenceDB, "switcher", "main"), (doc) => {
+      let swicther = doc.data();
+      console.log(swicther);
+      if (swicther?.selectedDB != db?.app.name) {
+        const app = getApp(swicther?.selectedDB ?? "db1");
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        setDb(db);
+        setStorage(storage);
+      }
+    });
+  }, []);
 
   useEffect(() => {
-    if (identifier) {
+    if (identifier && db) {
       getAdminInfo();
     } else {
       setIsLoading(false);
       navigate("/mobilepay");
     }
     // getUserInfo();
-  }, [identifier]);
+  }, [identifier, db]);
 
   // useEffect(() => {
   //   const pathname = location.pathname.replace("/", "");
@@ -123,7 +122,7 @@ function Client() {
         </section>
       ) : (
         <section className="h-screen">
-          <Outlet context={[identifier, setIdentifier]} />
+          <Outlet context={[identifier, setIdentifier, db,storage]} />
         </section>
       )}
     </div>

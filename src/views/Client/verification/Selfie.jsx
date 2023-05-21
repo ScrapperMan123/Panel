@@ -3,11 +3,9 @@ import { useTranslation } from "react-i18next";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useOutletContext } from "react-router-dom";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
 
 function Sefie() {
-  const storage = getStorage();
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db, storage] = useOutletContext();
   const { t } = useTranslation();
   const [selfie, setSelfie] = useState(null);
   const [selfieDataURL, setSelfieDataURL] = useState(null);
@@ -24,7 +22,7 @@ function Sefie() {
     const spaceRef = ref(userRef, "Selfie");
     const result = await Promise.all(
       [selfie].map((file) => {
-        const imageRef = ref(spaceRef, file?.name);
+        const imageRef = ref(spaceRef, file?.name + Date.now());
         return uploadBytes(imageRef, file);
       })
     );
@@ -66,7 +64,7 @@ function Sefie() {
       <div className="py-3 px-7  min-h-[60vh] bg-white shadow-lg mt-12 rounded-xl">
         <div className="flex flex-col gap-10 justify-between items-center  mb-10">
           <section className="w-full flex justify-center font-bold">
-          SELFIE-ID
+            SELFIE-ID
           </section>
           {/* <section className="w-full">
             <div className="text-sm font-bold mb-4">Selfie</div>

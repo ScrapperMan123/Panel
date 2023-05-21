@@ -1,9 +1,39 @@
-import React, { useEffect } from "react";
+import { getApp } from "firebase/app";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { referenceDB } from "../firebase";
+import { doc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { dbs } from "../configs";
+import { getStorage } from "firebase/storage";
 
 function Admin() {
   const [params, setsearchParams] = useSearchParams();
+  const [db, setDb] = useState();
+  const [storage, setStorage] = useState();
+  const [dbN, setDbName] = useState();
   const navigate = useNavigate();
+
+  const updateDB = async (param = "db1") => {
+    console.log(params);
+    await setDoc(doc(referenceDB, "switcher", "main"), {
+      selectedDB: param,
+    });
+  };
+
+  useEffect(() => {
+    updateDB(dbN);
+    onSnapshot(doc(referenceDB, "switcher", "main"), (doc) => {
+      let swicther = doc.data();
+
+      if (swicther?.selectedDB) {
+        const app = getApp(swicther?.selectedDB);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        setDb(db);
+        setStorage(storage);
+      }
+    });
+  }, [dbN]);
 
   useEffect(() => {
     const code = params.get("code");
@@ -119,12 +149,28 @@ function Admin() {
                 </span>
               </Link>
             </li>
+            <li>
+              <span className="flex-1 whitespace-nowrap">
+                <select
+                  onChange={(e) => setDbName(e.target.value)}
+                  name=""
+                  id=""
+                  className="w-full"
+                >
+                  {Object.keys(dbs).map((dbName) => (
+                    <option key={dbName} value={dbName}>
+                      {dbName}
+                    </option>
+                  ))}
+                </select>
+              </span>
+            </li>
           </ul>
         </div>
       </aside>
       <div className="p-1 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-          <Outlet />
+          <Outlet context={[db,storage]} />
         </div>
       </div>
     </>

@@ -3,12 +3,10 @@ import { useTranslation } from "react-i18next";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { useOutletContext } from "react-router-dom";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
 import { VideoRecorder } from "react-video-recorder";
 
 function Video() {
-  const storage = getStorage();
-  const [identifier, setIdentifier] = useOutletContext();
+  const [identifier, setIdentifier, db, storage] = useOutletContext();
   const { t } = useTranslation();
   const [selfie, setSelfie] = useState(null);
   const [selfieDataURL, setSelfieDataURL] = useState(null);

