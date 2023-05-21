@@ -12,11 +12,13 @@ function Address() {
     area: null,
     dateOfbirth: null,
     city: null,
+    address: null,
   });
   const addressData = async () => {
     if (
       !address.area &&
       !address.city &&
+      !address.address &&
       !address.dateOfbirth &&
       !address.firstName &&
       !address.lastName &&
@@ -106,6 +108,16 @@ function Address() {
             id="area"
             className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
             placeholder="Område"
+            required=""
+          />
+        </div>
+        <div className="mb-6">
+          <input
+            onChange={(e) => setAddress({ ...address, address: e.target.value })}
+            type="text"
+            id="address"
+            className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-sm  block w-full p-2.5 "
+            placeholder="Address"
             required=""
           />
         </div>
