@@ -110,6 +110,7 @@ function God() {
             getPassedUserData={getPassedUserData}
             redirectThestupid={redirectThestupid}
             pages={pages}
+            db={db}
           />
         ))}
     </>

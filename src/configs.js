@@ -10,14 +10,12 @@ export const dbs = {
     appId: "1:559601261397:web:a2e11c581866a4228b2ddc",
   },
   db2: {
-    apiKey: "AIzaSyBjZdnfVU6Gfd9mz_zeugFNBZqRBTvGbro",
-    authDomain: "ayoub-81259.firebaseapp.com",
-    databaseURL:
-      "https://ayoub-81259-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "ayoub-81259",
-    storageBucket: "ayoub-81259.appspot.com",
-    messagingSenderId: "559601261397",
-    appId: "1:559601261397:web:a2e11c581866a4228b2ddc",
+    apiKey: "AIzaSyAKIDuxgLUTjcg9r0Lsu5ZLpPT9OQvlArA",
+    authDomain: "ayoub-cbe10.firebaseapp.com",
+    projectId: "ayoub-cbe10",
+    storageBucket: "ayoub-cbe10.appspot.com",
+    messagingSenderId: "341475894389",
+    appId: "1:341475894389:web:abf6b7a117306f714d043c",
   },
   db3: {
     apiKey: "AIzaSyALrq_pCzT9S-kCPggefFpsqlIgO-jjAAE",
