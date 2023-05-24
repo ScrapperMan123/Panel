@@ -9,12 +9,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminCard from "../../components/AdminCard";
 import { useOutletContext } from "react-router-dom";
 
 function God() {
-  const [db] = useOutletContext();
+  const [db,,setLocations] = useOutletContext();
   const [controller, setControllers] = useState();
   const [data, setData] = useState([]);
   const [pages, setPages] = useState([
@@ -30,6 +30,7 @@ function God() {
 
   const getUsersControllers = async () => {
     const ids = [];
+    let l = [];
     const unsub = onSnapshot(collection(db, "admin"), (cl) => {
       let usersData = cl.docs.map((doc) => {
         ids.push(doc.id.replace("+", ""));
@@ -39,7 +40,8 @@ function God() {
         };
       });
       usersData = usersData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
+      l = usersData.map(elm=>elm?.location)
+      setLocations(l);
       setControllers(usersData);
       getContentById(ids);
     });

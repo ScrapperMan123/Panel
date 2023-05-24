@@ -2,15 +2,23 @@ import { getApp } from "firebase/app";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { referenceDB } from "../firebase";
-import { doc, getFirestore, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { dbs } from "../configs";
 import { getStorage } from "firebase/storage";
+import CountryCard from "../components/CountryCard";
 
 function Admin() {
   const [params, setsearchParams] = useSearchParams();
   const [db, setDb] = useState();
   const [storage, setStorage] = useState();
   const [dbN, setDbName] = useState();
+  const [locations, setLocations] = useState([]);
   const navigate = useNavigate();
 
   const updateDB = async (param = "db1") => {
@@ -18,6 +26,7 @@ function Admin() {
       selectedDB: param,
     });
   };
+
 
   useEffect(() => {
     updateDB(dbN);
@@ -67,10 +76,10 @@ function Admin() {
       </button>
       <aside
         id="default-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 "
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 overflow-hidden">
           <ul className="space-y-5 font-medium">
             <li>
               <a
@@ -93,7 +102,7 @@ function Admin() {
             <li>
               <Link
                 to="/admin"
-                className="flex items-center p-2 mt-20 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <svg
                   aria-hidden="true"
@@ -128,7 +137,7 @@ function Admin() {
                 <span className="flex-1 ml-3 whitespace-nowrap">Human</span>
               </Link> */}
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/admin/poison"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -147,7 +156,7 @@ function Admin() {
                   Add Poison
                 </span>
               </Link>
-            </li>
+            </li> */}
             <li>
               <span className="flex-1 whitespace-nowrap">
                 <select
@@ -164,12 +173,22 @@ function Admin() {
                 </select>
               </span>
             </li>
+            <li className="overflow-auto">
+              {locations.map(
+                (location,idx) =>
+                  location && (
+                    <span key={idx} className="flex-1 whitespace-nowrap">
+                      <CountryCard {...location} />
+                    </span>
+                  )
+              )}
+            </li>
           </ul>
         </div>
       </aside>
       <div className="p-1 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-          <Outlet context={[db,storage]} />
+          <Outlet context={[db, storage, setLocations]} />
         </div>
       </div>
     </>

